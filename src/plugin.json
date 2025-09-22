@@ -1,22 +1,27 @@
 {
   "$schema": "https://raw.githubusercontent.com/grafana/grafana/master/docs/sources/developers/plugins/plugin.schema.json",
   "type": "datasource",
-  "name": "Firestore",
-  "id": "pgollangi-firestore-datasource",
+  "name": "Firestore Datasource",
+  "id": "masorange-firestore-datasource",
   "metrics": true,
   "backend": true,
   "executable": "gpx_firestore",
   "category": "cloud",
   "info": {
-    "description": "Google firestore datasource plugin for grafana",
+    "description": "Advanced Google Firestore datasource with SQL-like queries, GROUP BY, ORDER BY, and nested field support",
     "author": {
-      "name": "pgollangi",
-      "url": "https://github.com/pgollangi"
+      "name": "masorange",
+      "url": "https://github.com/masorange"
     },
     "keywords": [
       "datasource",
       "firestore",
-      "gcp"
+      "gcp",
+      "sql",
+      "nosql",
+      "group-by",
+      "aggregation",
+      "nested-fields"
     ],
     "logos": {
       "small": "img/logo.svg",

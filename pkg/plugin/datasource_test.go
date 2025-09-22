@@ -14,6 +14,7 @@ import (
 	"sync"
 	"syscall"
 	"testing"
+	"time"
 
 	"github.com/grafana/grafana-plugin-sdk-go/backend"
 )
@@ -306,3 +307,140 @@ func TestMain(m *testing.M) {
 //func first(n int, _ error) int {
 //	return n
 //}
+
+func TestAddTimeRangeFilter(t *testing.T) {
+	from := time.Date(2023, 1, 1, 0, 0, 0, 0, time.UTC)
+	to := time.Date(2023, 1, 31, 23, 59, 59, 0, time.UTC)
+	timeRange := backend.TimeRange{From: from, To: to}
+
+	tests := []struct {
+		name     string
+		query    string
+		timeField string
+		expected string
+	}{
+		{
+			name:      "Simple select without WHERE clause",
+			query:     "SELECT * FROM users",
+			timeField: "createdAt",
+			expected:  "SELECT * FROM users where createdAt >= '2023-01-01T00:00:00Z' and createdAt <= '2023-01-31T23:59:59Z'",
+		},
+		{
+			name:      "Query with existing WHERE clause",
+			query:     "SELECT * FROM users WHERE status = 'active'",
+			timeField: "timestamp",
+			expected:  "SELECT * FROM users WHERE status = 'active' and timestamp >= '2023-01-01T00:00:00Z' and timestamp <= '2023-01-31T23:59:59Z'",
+		},
+		{
+			name:      "Query with ORDER BY",
+			query:     "SELECT * FROM users ORDER BY name",
+			timeField: "created_at",
+			expected:  "SELECT * FROM users where created_at >= '2023-01-01T00:00:00Z' and created_at <= '2023-01-31T23:59:59Z' ORDER BY name",
+		},
+		{
+			name:      "Query with LIMIT",
+			query:     "SELECT * FROM users LIMIT 10",
+			timeField: "updatedAt",
+			expected:  "SELECT * FROM users where updatedAt >= '2023-01-01T00:00:00Z' and updatedAt <= '2023-01-31T23:59:59Z' LIMIT 10",
+		},
+		{
+			name:      "Complex query with WHERE, ORDER BY and LIMIT",
+			query:     "SELECT * FROM users WHERE active = true ORDER BY name LIMIT 5",
+			timeField: "lastLogin",
+			expected:  "SELECT * FROM users WHERE active = true and lastLogin >= '2023-01-01T00:00:00Z' and lastLogin <= '2023-01-31T23:59:59Z' ORDER BY name LIMIT 5",
+		},
+	}
+
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			result := addTimeRangeFilter(tt.query, tt.timeField, timeRange)
+			require.Equal(t, tt.expected, result)
+		})
+	}
+}
+
+func TestReplaceGrafanaVariables(t *testing.T) {
+	from := time.Date(2023, 1, 1, 0, 0, 0, 0, time.UTC)
+	to := time.Date(2023, 1, 31, 23, 59, 59, 0, time.UTC)
+	timeRange := backend.TimeRange{From: from, To: to}
+
+	tests := []struct {
+		name     string
+		query    string
+		expected string
+	}{
+		{
+			name:     "Query with $__from variable",
+			query:    "SELECT * FROM events WHERE timestamp >= $__from",
+			expected: "SELECT * FROM events WHERE timestamp >= '2023-01-01T00:00:00Z'",
+		},
+		{
+			name:     "Query with $__to variable",
+			query:    "SELECT * FROM events WHERE timestamp <= $__to",
+			expected: "SELECT * FROM events WHERE timestamp <= '2023-01-31T23:59:59Z'",
+		},
+		{
+			name:     "Query with both variables",
+			query:    "SELECT * FROM events WHERE timestamp >= $__from AND timestamp <= $__to",
+			expected: "SELECT * FROM events WHERE timestamp >= '2023-01-01T00:00:00Z' AND timestamp <= '2023-01-31T23:59:59Z'",
+		},
+		{
+			name:     "Complex query with variables",
+			query:    "SELECT * FROM events WHERE type = 'error' AND createdAt BETWEEN $__from AND $__to ORDER BY createdAt",
+			expected: "SELECT * FROM events WHERE type = 'error' AND createdAt BETWEEN '2023-01-01T00:00:00Z' AND '2023-01-31T23:59:59Z' ORDER BY createdAt",
+		},
+		{
+			name:     "Query without variables",
+			query:    "SELECT * FROM events WHERE type = 'error'",
+			expected: "SELECT * FROM events WHERE type = 'error'",
+		},
+	}
+
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			result := replaceGrafanaVariables(tt.query, timeRange)
+			require.Equal(t, tt.expected, result)
+		})
+	}
+}
+
+func TestContainsGrafanaVariables(t *testing.T) {
+	tests := []struct {
+		name     string
+		query    string
+		expected bool
+	}{
+		{
+			name:     "Query with $__from",
+			query:    "SELECT * FROM events WHERE timestamp >= $__from",
+			expected: true,
+		},
+		{
+			name:     "Query with $__to",
+			query:    "SELECT * FROM events WHERE timestamp <= $__to",
+			expected: true,
+		},
+		{
+			name:     "Query with both variables",
+			query:    "SELECT * FROM events WHERE timestamp >= $__from AND timestamp <= $__to",
+			expected: true,
+		},
+		{
+			name:     "Query without variables",
+			query:    "SELECT * FROM events WHERE type = 'error'",
+			expected: false,
+		},
+		{
+			name:     "Query with other variables",
+			query:    "SELECT * FROM events WHERE type = '$variable'",
+			expected: false,
+		},
+	}
+
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			result := containsGrafanaVariables(tt.query)
+			require.Equal(t, tt.expected, result)
+		})
+	}
+}

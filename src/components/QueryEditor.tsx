@@ -1,7 +1,6 @@
 import React, { ChangeEvent, PureComponent } from 'react';
 import {
   QueryField, Button
-  // Form, InlineField, InlineFieldRow, Input
 } from '@grafana/ui';
 // import { FieldValues } from "react-hook-form"
 import { QueryEditorProps } from '@grafana/data';
@@ -24,6 +23,8 @@ export class QueryEditor extends PureComponent<Props> {
     // this.runQuery(onRunQuery)
   };
 
+  // Time field removed - users should use $__from and $__to variables in queries
+
   onRunQuery = () => {
     const { onRunQuery } = this.props;
     onRunQuery();
@@ -44,16 +45,12 @@ export class QueryEditor extends PureComponent<Props> {
   }
 
   render() {
-    const {  query } = this.props.query;
-
-    // const defaultValues: FieldValues = {
-    //       where: [{ field: 'Janis', op: 'Joplin', value: "Va" }],
-    // };
+    const { query } = this.props.query;
 
     return (
       <div>
-        <div className="gf-form"> 
-         <QueryField query={query} placeholder="FireQL query" portalOrigin="" onChange={this.onQueryChange}></QueryField>
+        <div className="gf-form">
+         <QueryField query={query} placeholder="FireQL query (use $__from and $__to for time filtering)" portalOrigin="" onChange={this.onQueryChange}></QueryField>
          <Button style={{marginLeft: "10px"}} onClick={this.onRunQuery}>Run query</Button>
         </div>
       </div>

@@ -1,7 +1,8 @@
 import { DataQuery, DataSourceJsonData } from '@grafana/data';
 
 export interface FirestoreQuery extends DataQuery {
-  query: string
+  query: string;
+  timeField?: string;
 }
 
 export const DEFAULT_QUERY: Partial<FirestoreQuery> = {
