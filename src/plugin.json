@@ -11,7 +11,7 @@
     "description": "Advanced Google Firestore datasource with SQL-like queries, GROUP BY, ORDER BY, and nested field support",
     "author": {
       "name": "masorange",
-      "url": "https://github.com/masorange"
+      "url": "https://github.com/apardota01/masorange-firestore-grafana-datasource"
     },
     "keywords": [
       "datasource",
