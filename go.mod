@@ -1,4 +1,4 @@
-module github.com/pgollangi/firestore
+module github.com/apardota01/masorange-firestore-grafana-datasource
 
 go 1.24.6
 
