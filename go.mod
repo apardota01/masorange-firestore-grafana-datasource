@@ -1,3 +1,5 @@
+// Grafana Plugin: Advanced Firestore Datasource v1.0.6
+// This module provides Google Firestore integration for Grafana
 module github.com/apardota01/masorange-firestore-grafana-datasource
 
 go 1.22
