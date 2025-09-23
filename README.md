@@ -263,10 +263,10 @@ The plugin intelligently routes queries between two execution engines:
 ## Contributing
 Thanks for considering contributing to this project!
 
-Please read the [Contributions](CONTRIBUTING.md) and [Code of conduct](CODE_OF_CONDUCT.md).
+Please read the [Contributions](https://github.com/apardota01/masorange-firestore-grafana-datasource/blob/main/CONTRIBUTING.md) and [Code of conduct](https://github.com/apardota01/masorange-firestore-grafana-datasource/blob/main/CODE_OF_CONDUCT.md).
 
 Feel free to open an issue or submit a pull request!
 
 ## License
 
-[MIT](LICENSE)
+[MIT](https://github.com/apardota01/masorange-firestore-grafana-datasource/blob/main/LICENSE)
