@@ -36,7 +36,7 @@
         "path": "screenshots/query-with-firestore-datasource.png"
       }
     ],
-    "version": "1.0.3",
+    "version": "1.0.4",
     "updated": "%TODAY%"
   },
   "dependencies": {
