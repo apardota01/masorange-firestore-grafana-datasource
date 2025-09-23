@@ -1,4 +1,4 @@
-module masmovil-firestore-datasource
+module github.com/apardota01/masorange-firestore-grafana-datasource
 
 go 1.22
 
