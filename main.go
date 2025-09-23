@@ -5,7 +5,7 @@ import (
 
 	"github.com/grafana/grafana-plugin-sdk-go/backend/datasource"
 	"github.com/grafana/grafana-plugin-sdk-go/backend/log"
-	"github.com/apardota01/masorange-firestore-grafana-datasource/pkg/plugin"
+	"masmovil-firestore-datasource/pkg/plugin"
 )
 
 func main() {
