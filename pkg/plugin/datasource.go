@@ -5,7 +5,6 @@ import (
 	"encoding/json"
 	"errors"
 	"fmt"
-	"os"
 	"strconv"
 	"strings"
 	"time"
@@ -93,14 +92,6 @@ func (d *Datasource) query(ctx context.Context, pCtx backend.PluginContext, quer
 	return response
 }
 
-// debugToFile writes debug info to a file for troubleshooting
-func debugToFile(message string) {
-	f, err := os.OpenFile("/tmp/firestore-debug.log", os.O_APPEND|os.O_CREATE|os.O_WRONLY, 0644)
-	if err == nil {
-		defer f.Close()
-		f.WriteString(fmt.Sprintf("[%s] %s\n", time.Now().Format("2006-01-02 15:04:05"), message))
-	}
-}
 
 func (d *Datasource) queryInternal(ctx context.Context, pCtx backend.PluginContext, query backend.DataQuery) backend.DataResponse {
 	var response backend.DataResponse
@@ -644,12 +635,11 @@ func (d *Datasource) executeWithNativeSDKForVariables(ctx context.Context, pCtx 
 	// Parse the SQL query to extract collection, fields, and additional filters
 	queryInfo, err := parseSQLQueryWithVariables(qm.Query)
 	if err != nil {
-		debugToFile(fmt.Sprintf("Parse error: %v", err))
 		log.DefaultLogger.Error("Failed to parse SQL query", "error", err, "query", qm.Query)
 		return backend.ErrDataResponse(backend.StatusBadRequest, "Query parsing: "+err.Error())
 	}
 
-	debugToFile(fmt.Sprintf("Parsed: collection=%s, groupByFields=%v, aggregateFields=%v", queryInfo.Collection, queryInfo.GroupByFields, queryInfo.AggregateFields))
+	log.DefaultLogger.Info("Query parsed successfully", "collection", queryInfo.Collection, "groupByFields", queryInfo.GroupByFields, "aggregateFields", queryInfo.AggregateFields)
 	log.DefaultLogger.Info("Parsed query info", "collection", queryInfo.Collection, "timeField", queryInfo.TimeField, "fields", queryInfo.Fields, "additionalFilters", queryInfo.AdditionalFilters)
 
 	// Build native Firestore query
