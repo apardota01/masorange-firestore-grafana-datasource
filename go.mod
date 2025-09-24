@@ -6,7 +6,7 @@ go 1.24
 
 require (
 	cloud.google.com/go/firestore v1.18.0
-	github.com/grafana/grafana-plugin-sdk-go v0.250.0
+	github.com/grafana/grafana-plugin-sdk-go v0.240.0
 	github.com/pgollangi/fireql v0.3.2
 	github.com/stretchr/testify v1.10.0
 	golang.org/x/oauth2 v0.30.0
