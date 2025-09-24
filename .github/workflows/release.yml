@@ -55,17 +55,12 @@ jobs:
       #     version: latest
       #     args: coverage
 
-      - name: Use pre-compiled backend binaries
+      - name: Build backend
         if: steps.check-for-backend.outputs.has-backend == 'true'
-        run: |
-          # Backend binaries are already present in dist/
-          if [ -f "dist/gpx_firestore" ]; then
-            echo "Backend binaries found in dist/"
-            ls -la dist/gpx_firestore*
-          else
-            echo "Error: No backend binaries found in dist/"
-            exit 1
-          fi
+        uses: magefile/mage-action@v1
+        with:
+          version: latest
+          args: buildAll
 
       - name: Warn missing Grafana API key
         run: |
