@@ -27,7 +27,12 @@
       "small": "img/logo.svg",
       "large": "img/logo.svg"
     },
-    "links": [],
+    "links": [
+      {
+        "name": "sponsor",
+        "url": "https://github.com/sponsors/apardota01"
+      }
+    ],
     "screenshots": [
       {
         "path": "screenshots/firestore-datasource-configuration.png"

@@ -8,8 +8,6 @@ The plugin combines [FireQL](https://github.com/pgollangi/FireQL) for complex qu
 
 > **Key Enhancement**: Advanced query routing system that automatically selects between FireQL and native Firestore SDK based on query complexity for optimal performance.
 
-
-
 ![](assets/firestore-grafana-datasource.svg)
 
 ## Features
@@ -132,8 +130,6 @@ This plugin can be submitted to the Grafana Plugin Catalog for easy installation
 ## Development
 
 For developers who want to contribute to this plugin, please see the [DEVELOPMENT.md](https://github.com/apardota01/masorange-firestore-grafana-datasource/blob/main/DEVELOPMENT.md) file for detailed development instructions.
-
-
 
 ## Technical Details
 
