@@ -33,3 +33,12 @@ e2e-results/
 
 .eslintcache
 .DS_Store
+
+# Build artifacts and releases
+*.zip
+*.tar.gz
+*.tar
+checksums.txt
+release-notes.md
+yarn.lock
+plugin-validator/

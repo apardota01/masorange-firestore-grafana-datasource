@@ -6,7 +6,7 @@ This enhanced Firestore datasource plugin enables seamless integration of Firest
 
 The plugin combines [FireQL](https://github.com/pgollangi/FireQL) for complex queries with native Firestore SDK for optimal performance, automatically routing queries to the best execution engine.
 
-> **Key Enhancement**: Advanced query routing system that automatically selects between FireQL and native Firestore SDK based on query complexity for optimal performance.
+**Key Enhancement**: Advanced query routing system that automatically selects between FireQL and native Firestore SDK based on query complexity for optimal performance.
 
 ![](assets/firestore-grafana-datasource.svg)
 

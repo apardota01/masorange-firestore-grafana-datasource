@@ -1,7 +1,0 @@
-# Checksums for masorange-firestore-datasource-v1.0.0.tar.gz
-
-## SHA1
-1a7d7174042e48695a2f569cff642457e4ad3aa0  masorange-firestore-datasource-v1.0.0.tar.gz
-
-## MD5
-7b68c18c9bf815eb92a8632d4a62b10c  masorange-firestore-datasource-v1.0.0.tar.gz
