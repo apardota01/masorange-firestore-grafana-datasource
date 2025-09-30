@@ -40,5 +40,4 @@ e2e-results/
 *.tar
 checksums.txt
 release-notes.md
-yarn.lock
 plugin-validator/
