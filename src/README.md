@@ -1,5 +1,3 @@
-<!-- This README file is going to be the one displayed on the Grafana.com website for your plugin -->
-
 # Firestore
 
 [Google Firestore](https://cloud.google.com/firestore) Data Source Plugin for [Grafana](https://grafana.com/).
